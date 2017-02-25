@@ -1,0 +1,24 @@
+{
+  "name": "split-decision",
+  "version": "1.0.0",
+  "description": "rate martial arts matches",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "orelogo",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.22.0",
+    "babelify": "^7.3.0",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-copy": "^1.0.0"
+  },
+  "dependencies": {
+    "express": "^4.14.1",
+    "jquery": "^3.1.1",
+    "tocca": "^2.0.1"
+  }
+}
