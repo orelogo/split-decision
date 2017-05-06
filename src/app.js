@@ -1,12 +1,16 @@
 import express from 'express';
+import index from './routes/index';
+import loadData from './loadData';
+
+loadData();
 
 let app = express();
 let port = 8000;
 
-var index = require('./routes/index');
+
 
 app.use(express.static('public'));
 app.use('/', index);
 
 app.listen(port);
-console.log('server on');
+console.log('Server listening on port ' + port);
