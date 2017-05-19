@@ -13,6 +13,7 @@ export default function() {
     .then(addRatedMatches);
 }
 
+// Clear the database
 function clearCollections() {
   User.collection.drop();
   Match.collection.drop();
