@@ -2,12 +2,18 @@
 
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <title>Split Decision</title>
-  </head>
-  <body>
-    <h1>Past UFC Events</h1>
-    {{#list events}}{{name}}{{/list}}
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Split Decision</title>
+</head>
+
+<body>
+  <h1>Past UFC Events</h1>
+  <ul>
+    {{#each events}}
+      <li><a href="/matches?id={{id}}&amp;base_title={{base_title}}&amp;title_tag_line={{title_tag_line}}">{{base_title}}: {{title_tag_line}}</a></li>
+    {{/each}}
+  </ul>
+</body>
+
 </html>

@@ -24,7 +24,7 @@ export default {
    * @param  {Function} callback function with (error, reponse, body)
    */
   getMatches(eventId, callback) {
-    ufcReq.get(eventId + '/fights', callback);
+    ufcReq.get('events/' + eventId + '/fights', callback);
   }
 
 };

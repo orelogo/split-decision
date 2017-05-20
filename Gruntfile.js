@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: ['src/**/*.js', 'src/**/*.html'],
+      files: ['src/**/*.js', 'src/**/*.html', 'src/**/*.hbs'],
       tasks: ['browserify', 'babel', 'copy'],
     }
   });
