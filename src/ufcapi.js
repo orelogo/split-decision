@@ -14,8 +14,14 @@ export default {
    *
    * @param  {Function} callback fuction with (error, response, body)
    */
-  getEvents(callback) {
-    ufcReq.get('events', callback);
+  getEvents() {
+    return new Promise((resolve, reject) => {
+      ufcReq.get('events', (error, response, body) => {
+        if (error || !(/^2/.test('' + response.statusCode)))
+          reject({ error: error, reponse: response });
+        else resolve(body);
+      });
+    });
   },
 
   /**
@@ -23,8 +29,14 @@ export default {
    * @param  {number}   eventId  UFC API event id
    * @param  {Function} callback function with (error, reponse, body)
    */
-  getMatches(eventId, callback) {
-    ufcReq.get('events/' + eventId + '/fights', callback);
+  getMatches(eventId) {
+    return new Promise((resolve, reject) => {
+      ufcReq.get('events/' + eventId + '/fights', (error, response, body) => {
+        if (error || !(/^2/.test('' + response.statusCode)))
+          reject({ error: error, reponse: response });
+        else resolve(body);
+      });
+    });
   }
 
 };

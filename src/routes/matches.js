@@ -1,5 +1,5 @@
 import express from 'express';
-import ufcapi from '../ufcapi';
+import ufcApi from '../ufcApi';
 import hbs from 'hbs';
 import _ from 'lodash';
 
@@ -9,7 +9,9 @@ router.get('/', (req, res, next) => {
 
   let eventId = req.query.id;
 
-  ufcapi.getMatches(eventId, (err, apiRes, body) => {
+  let requestTime = Date.now();
+  ufcApi.getMatches(eventId, (err, apiRes, body) => {
+    console.log('UFC API response time: ' + (Date.now() - requestTime) + ' ms');
     res.render('matches', getTrimMatches(body, req.query));
   });
   console.log('GET matches for event id: ' + eventId);

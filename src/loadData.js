@@ -5,7 +5,9 @@ import RatedMatch from './models/ratedmatch';
 
 // Loads database with users, matches, and rated matches
 export default function() {
-  mongoose.connect('mongodb://localhost/splitdecision');
+  mongoose.connect('mongodb://localhost/splitdecision').catch((reason) => {
+    console.log('Rejected: ' + reason);
+  });
 
   clearCollections();
   addUsers()
@@ -45,8 +47,12 @@ function addMatches(event) {
 function addRatedMatches(res) {
   addRatedMatch('janedoe', 'UFC 210', 1);
   addRatedMatch('tomselek', 'UFC 209', 2);
-  addRatedMatch('tomselek', 'UFC 209', 5); // should not add
-  addRatedMatch('jimmy', 'UFC 209', 1); // should not add
+  addRatedMatch('tomselek', 'UFC 209', 5).catch((reason) => {
+    console.log('Rejected: ' + reason);
+  }); // should not add
+  addRatedMatch('jimmy', 'UFC 209', 1).catch((reason) => {
+    console.log('Rejected: ' + reason);
+  }); // should not add
 }
 
 // Add a single rated match
