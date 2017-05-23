@@ -10,40 +10,61 @@ import _ from 'lodash';
 export default function() {
   // clearCollections();
   ufcApi.getEvents()
-    .then(insertEvents)
-    .then(dbAdapter.queryLatestEvents)
-    .then(getMatches)
+    .then(updateApiData)
     .catch((error) => {
       console.log(error);
     });
 }
 
-function insertEvents(events) {
+function updateApiData(events) {
   Event.collection.drop();
 
+  let date = new Date().toJSON();
+
   let trimmedEvents = events.map((event) => {
-    return _.pick(event, [
+    let trimmedEvent = _.pick(event, [
       'id',
       'event_date',
       'base_title',
       'title_tag_line',
       'feature_image'
     ]);
+
+    trimmedEvent.updated = date;
+
+    return trimmedEvent;
   });
 
-  return dbAdapter.insertEvents(trimmedEvents);
+  dbAdapter.insertEvents(trimmedEvents);
+  getMatches(trimmedEvents);
 }
 
 function getMatches(events) {
   events.forEach((event) => {
-    ufcApi.getMatches(event.id)
-      .then(insertMatches);
+
+    dbAdapter.getFirstMatch(event.id).then((result) => {
+        if (result === null || (Date.parse(result.updated) < Date.parse(event.event_date))) {
+          console.log('API call for ' + event.id + ": " + event.base_title + ' on ' + event.event_date.toString());
+          ufcApi.getMatches(event.id)
+          .then(insertMatches)
+          .catch((error) => console.log(error));
+        }
+      })
+      .catch((error) => console.log(error));
   });
 }
 
 function insertMatches(matches) {
+  if (matches.length === 0) {
+    console.log('No matches received from API call');
+    return;
+  }
+
+  let date = new Date().toJSON();
+
   let trimmedMatches = matches.map((match) => {
-    return _.pick(match, [
+
+    let trimmedMatch = _.pick(match, [
       'id',
       'event_id',
       'fightcard_order',
@@ -60,6 +81,9 @@ function insertMatches(matches) {
       'fighter1_weight_class',
       'fighter2_weight_class'
     ]);
+
+    trimmedMatch.updated = date;
+    return trimmedMatch;
   });
 
   return dbAdapter.upsertMatches(trimmedMatches);

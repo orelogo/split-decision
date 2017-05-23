@@ -14,6 +14,10 @@ export default {
     });
   },
 
+  getFirstMatch(eventId) {
+    return Match.findOne({ event_id: eventId }).select('updated').exec();
+  },
+
   upsertMatches(matches) {
     return new Promise((resolve, reject) => {
       matches.forEach((match, i) => {
@@ -54,6 +58,19 @@ export default {
         }
       );
     });
+  },
+
+  queryMatches(eventId) {
+    return new Promise((resolve, reject) => {
+      Match.find({event_id: eventId}, (err, docs) => {
+        if (err)
+          reject(err);
+        else
+          resolve(docs);
+      });
+    });
   }
+
+
 
 };

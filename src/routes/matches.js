@@ -1,5 +1,5 @@
 import express from 'express';
-import ufcApi from '../ufcApi';
+import dbAdapter from '../dbAdapter';
 import hbs from 'hbs';
 import _ from 'lodash';
 
@@ -9,46 +9,15 @@ router.get('/', (req, res, next) => {
 
   let eventId = req.query.id;
 
-  let requestTime = Date.now();
-  ufcApi.getMatches(eventId, (err, apiRes, body) => {
-    console.log('UFC API response time: ' + (Date.now() - requestTime) + ' ms');
-    res.render('matches', getTrimMatches(body, req.query));
-  });
-  console.log('GET matches for event id: ' + eventId);
-});
-
-/**
- * [getTrimMatches description]
- * @param  {Object[]} matches unfiltered matches from UFC API
- * @param  {Object}   event   event object
- * @return {Object}           trimmed matches and event information
- */
-function getTrimMatches(matches, event) {
-  let filteredMatches = matches.map((match) => {
-      return _.pick(match, [
-        'id',
-        'event_id',
-        'fightcard_order',
-        'fighter1_id',
-        'fighter2_id',
-        'fighter1_first_name',
-        'fighter1_nickname',
-        'fighter1_last_name',
-        'fighter2_first_name',
-        'fighter2_nickname',
-        'fighter2_last_name',
-        'fighter1_full_body_image',
-        'fighter2_full_body_image',
-        'fighter1_weight_class',
-        'fighter2_weight_class'
-      ]);
+  dbAdapter.queryMatches(eventId).then((result) => {
+    res.render('matches', {
+      base_title: req.query.base_title,
+      title_tag_line: req.query.title_tag_line,
+      matches: result
     });
+  });
 
-    return {
-      base_title: event.base_title,
-      title_tag_line: event.title_tag_line,
-      matches: filteredMatches
-    };
-}
+  console.log('GET matches');
+});
 
 module.exports = router;
