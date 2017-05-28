@@ -25,7 +25,7 @@ export default {
           if (err)
             reject(err);
           else if (i === matches.length - 1) {
-            console.log(i + ' matches upserted for event ' + match.event_id);
+            console.log((i + 1) + ' matches upserted for event ' + match.event_id);
             resolve();
           }
         });
@@ -34,7 +34,7 @@ export default {
   },
 
   queryLatestEvents() {
-    const msRange = 1000 * 60 * 60 * 24 * 60; // 60 days
+    const msRange = 99999*1000 * 60 * 60 * 24 * 60; // 60 days
     let min = new Date(Date.now() - msRange);
     let max = new Date();
 

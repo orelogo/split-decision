@@ -54,15 +54,17 @@ function getMatches(events) {
   });
 }
 
-function insertMatches(matches) {
-  if (matches.length === 0) {
-    console.log('No matches received from API call');
+function insertMatches(result) {
+
+  if (result.matches.length === 0) {
+    // add to bad eventId database
+    console.log('No matches received from API call to: ' + result.event_id);
     return;
   }
-
+  console.log('Matches array length: ' + result.matches.length);
   let date = new Date().toJSON();
 
-  let trimmedMatches = matches.map((match) => {
+  let trimmedMatches = result.matches.map((match) => {
 
     let trimmedMatch = _.pick(match, [
       'id',

@@ -9,8 +9,9 @@ module.exports = function(grunt) {
       dist: {
         files: [
           {expand: true, cwd: 'src/', src: ['*.js'], dest: 'build/'},
-          {expand: true, cwd: 'src/routes/', src: ['*'], dest: 'build/routes/'},
-          {expand: true, cwd: 'src/models/', src: ['*'], dest: 'build/models/'}
+          {expand: true, cwd: 'src/routes/', src: ['*.js'], dest: 'build/routes/'},
+          {expand: true, cwd: 'src/models/', src: ['*.js'], dest: 'build/models/'},
+          {expand: true, cwd: 'src/tests/', src: ['*.js'], dest: 'build/tests/'}
         ]
       }
     },

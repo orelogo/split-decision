@@ -1,11 +1,11 @@
 import request from 'request';
 
-let options = {
+const options = {
   baseUrl: 'http://ufc-data-api.ufc.com/api/v3/us/',
   json: true
 };
 
-let ufcReq = request.defaults(options);
+const ufcReq = request.defaults(options);
 
 export default {
 
@@ -34,7 +34,12 @@ export default {
       ufcReq.get('events/' + eventId + '/fights', (error, response, body) => {
         if (error || !(/^2/.test('' + response.statusCode)))
           reject({ error: error, reponse: response });
-        else resolve(body);
+        else {
+          resolve({
+            event_id: eventId,
+            matches: body
+          });
+        }
       });
     });
   }
