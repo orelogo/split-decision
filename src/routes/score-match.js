@@ -6,11 +6,14 @@ import _ from 'lodash';
 let router = express.Router();
 
 router.get('/', (req, res, next) => {
-  dbAdapter.getLatestEvents().then((result) => {
-      res.render('events', { events: result });
-    });
-  console.log('GET events');
-});
 
+  let matchId = req.query.match_id;
+
+  dbAdapter.getMatch(matchId).then((result) => {
+    res.render('score-match', result);
+  });
+
+  console.log('GET score-match');
+});
 
 module.exports = router;

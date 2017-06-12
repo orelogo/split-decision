@@ -7,9 +7,9 @@ let router = express.Router();
 
 router.get('/', (req, res, next) => {
 
-  let eventId = req.query.id;
+  let eventId = req.query.event_id;
 
-  dbAdapter.queryMatches(eventId).then((result) => {
+  dbAdapter.getMatches(eventId).then((result) => {
     res.render('matches', {
       base_title: req.query.base_title,
       title_tag_line: req.query.title_tag_line,

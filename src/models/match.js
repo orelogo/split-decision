@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 let matchSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true, index: true },
+  match_id: { type: Number, required: true, unique: true, index: true },
   event_id: {type: Number, required: true},
-  fightcard_order: {type: String, required: true},
-  fighter1_id: String,
-  fighter2_id: String,
+  fightcard_order: {type: Number, required: true},
+  fighter1_id: Number,
+  fighter2_id: Number,
   fighter1_first_name: String,
   fighter1_nickname: String,
   fighter1_last_name: String,

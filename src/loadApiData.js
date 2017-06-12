@@ -23,13 +23,13 @@ function updateApiData(events) {
 
   let trimmedEvents = events.map((event) => {
     let trimmedEvent = _.pick(event, [
-      'id',
       'event_date',
       'base_title',
       'title_tag_line',
       'feature_image'
     ]);
 
+    trimmedEvent.event_id = event.id;
     trimmedEvent.updated = date;
 
     return trimmedEvent;
@@ -42,10 +42,10 @@ function updateApiData(events) {
 function getMatches(events) {
   events.forEach((event) => {
 
-    dbAdapter.getFirstMatch(event.id).then((result) => {
+    dbAdapter.getFirstMatch(event.event_id).then((result) => {
         if (result === null || (Date.parse(result.updated) < Date.parse(event.event_date))) {
-          console.log('API call for ' + event.id + ": " + event.base_title + ' on ' + event.event_date.toString());
-          ufcApi.getMatches(event.id)
+          console.log('API call for ' + event.event_id + ": " + event.base_title + ' on ' + event.event_date.toString());
+          ufcApi.getMatches(event.event_id)
           .then(insertMatches)
           .catch((error) => console.log(error));
         }
@@ -67,7 +67,6 @@ function insertMatches(result) {
   let trimmedMatches = result.matches.map((match) => {
 
     let trimmedMatch = _.pick(match, [
-      'id',
       'event_id',
       'fightcard_order',
       'fighter1_id',
@@ -84,6 +83,7 @@ function insertMatches(result) {
       'fighter2_weight_class'
     ]);
 
+    trimmedMatch.match_id = match.id;
     trimmedMatch.updated = date;
     return trimmedMatch;
   });

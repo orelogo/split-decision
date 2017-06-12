@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import index from './routes/index';
 import events from './routes/events';
 import matches from './routes/matches';
+import scoreMatch from './routes/score-match';
 // import loadData from './loadData';
 import loadApiData from './loadApiData';
 
@@ -21,6 +22,7 @@ app.use(express.static('public'));
 app.use('/', index);
 app.use('/events', events);
 app.use('/matches', matches);
+app.use('/score-match', scoreMatch);
 
 app.listen(port);
 console.log('Server listening on port ' + port);
